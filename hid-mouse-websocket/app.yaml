@@ -1,0 +1,6 @@
+name: HID Mouse over WebSocket
+icon: 🖱️
+description: Broadcast circular mouse-move HID reports from the UNO Q over a WebSocket that a host computer receiver connects to
+
+ports:
+  - 8765
