@@ -1,12 +1,12 @@
 # HID on the Arduino UNO Q
 
-This repository collects examples for using **USB HID (Human Interface Device)** on the [Arduino® UNO Q](https://store.arduino.cc/products/uno-q). The UNO Q can act as a USB mouse (and other HID devices) toward a host computer, letting you move the cursor, click, and scroll directly from code running on the board's Linux side.
+This repository collects examples for using **USB HID (Human Interface Device)** on the [Arduino® UNO Q](https://store.arduino.cc/products/uno-q). The UNO Q can act as a USB mouse or keyboard toward a host computer, letting you move the cursor, click, scroll, and type directly from code running on the board's Linux side.
 
-The examples range from a minimal "hello world" mouse mover to a joystick-controlled cursor and a networked WebSocket variant.
+The examples range from a minimal "hello world" mouse mover to a joystick-controlled cursor, a keyboard typer, and a networked WebSocket variant.
 
 ## What is HID here?
 
-On the UNO Q, the Linux system exposes a USB HID gadget device at `/dev/hidg1`. Writing a small report to that device sends a mouse event to the connected host:
+On the UNO Q, the Linux system exposes USB HID gadget devices: a mouse at `/dev/hidg1` and a keyboard at `/dev/hidg0`. Writing a small report to one of these devices sends an event to the connected host. For the mouse:
 
 ```python
 def mouse_report(buttons=0, x=0, y=0, scroll=0):
@@ -14,13 +14,17 @@ def mouse_report(buttons=0, x=0, y=0, scroll=0):
         hid.write(bytes([buttons, x & 0xff, y & 0xff, scroll & 0xff]))
 ```
 
-Each report is 4 bytes: button state, relative X, relative Y, and scroll. This is the foundation used across all the examples in this repo.
+The mouse report is 4 bytes: button state, relative X, relative Y, and scroll. The keyboard uses a similar approach, writing key reports to `/dev/hidg0`. This is the foundation used across all the examples in this repo.
 
 ## Examples
 
-### [`mouse_test/`](mouse_test/mouse-test.py)
+### [`mouse_test/`](mouse_test/README.md)
 
-The simplest starting point. A standalone script with helper functions for moving, clicking, and scrolling the mouse. Running it draws a small square with the cursor. Use this to confirm HID works on your board.
+The simplest starting point. A standalone script with helper functions for moving, clicking, and scrolling the mouse. Running it draws a small square with the cursor. Use this to confirm HID works on your board. See the [example README](mouse_test/README.md) for setup and run instructions.
+
+### [`keyboard_test/`](keyboard_test/README.md)
+
+A standalone script that types a string of text into the focused window on the host computer. Running it types `Hello, World!` after a short countdown. Use this to confirm HID keyboard input works on your board. See the [example README](keyboard_test/README.md) for setup and run instructions.
 
 ### [`mouse_move/`](mouse_move/README.md)
 

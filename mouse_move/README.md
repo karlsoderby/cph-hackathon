@@ -25,9 +25,12 @@ adb shell
 #install python venv
 sudo apt install python3.12-venv
 
-#install
+#setup venv
 python3 -m venv .venv
 source .venv/bin/activate
+
+#install msgpack
+pip install msgpack
 ```
 
 Then we need navigate into the mouse_move folder, compile the Arduino sketch and upload it to the MCU:
@@ -44,3 +47,7 @@ Finally, we can run the script `mouse_move.py`:
 python3 mouse_move.py
 ```
 
+The way it works is:
+- Data is read on the MCU
+- Data is sent to the MPU (Linux)
+- Data is then sent to computer via HID
